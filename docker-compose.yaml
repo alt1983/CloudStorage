@@ -1,0 +1,14 @@
+version: '2.2'
+
+services:
+  money5:
+    image: 'cloud:latest'
+
+    build: ./
+    ports:
+      - '8080:8080'
+    volumes:
+      - C:\front\
+    command: npm run build
+
+
