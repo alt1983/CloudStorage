@@ -1,0 +1,12 @@
+server:
+  port : 8080
+  
+spring:
+  datasource:
+    password: pepper
+    url: jdbc:postgresql://localhost:5432/
+    username: postgres
+
+jwt:
+  secret:
+    access: qBTmv4oXFFR2GwjexDJ4t6fsIUIUhhXqlktXjXdkcyygs8nPVEwMfo29VDRRepYDVV5IkIxBMzr7OEHXEHd37w==
