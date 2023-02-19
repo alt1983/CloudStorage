@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 public class CloudStorageService {
-    private final AuthService authService;
+    private AuthService authService;
     private CloudStorageRepository repository;
 
     public CloudStorageService(AuthService authService, CloudStorageRepository repository) {
@@ -22,21 +22,26 @@ public class CloudStorageService {
         this.repository = repository;
     }
 
-    public List<FileInfo> getFilesList() {
+    public List<FileInfo> getFilesList(Integer limit) {
+
+        if(limit <= 0) throw new ErrorInputData("Error amount of files");
         List<FileInfo> filesInfo = new ArrayList<>();
         List<Files> files = repository.findAllFiles();
-
+        int lim = limit;
         for (Files file : files) {
-            filesInfo.add(new FileInfo(file.getName(), file.getData().length, String.valueOf(file.hashCode())));
+            if(lim > 0) {
+                filesInfo.add(new FileInfo(file.getName(), file.getData().length, String.valueOf(file.hashCode())));
+                lim--;
+            }
         }
         if (filesInfo.isEmpty()) throw new ErrorInternal("Error getting file list");
         return filesInfo;
 
     }
 
-    public void uploadFile(String filename, byte[] data) {
+    public boolean uploadFile(String filename, byte[] data) {
         if (filename == null) throw new ErrorInputData("Error input data");
-        repository.insertFile(filename, data);
+        return repository.insertFile(filename, data);
     }
 
     public void putFile(String filename, String name) {

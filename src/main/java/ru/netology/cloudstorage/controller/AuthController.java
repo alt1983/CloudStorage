@@ -1,5 +1,6 @@
 package ru.netology.cloudstorage.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -37,7 +38,8 @@ public class AuthController {
 
     @GetMapping("list")
     public List<FileInfo> getList(@RequestParam("limit") Integer limit) {
-        return cloudStorageService.getFilesList();
+
+        return cloudStorageService.getFilesList(limit);
     }
 
     @PostMapping("login")
@@ -56,8 +58,8 @@ public class AuthController {
 
     @PostMapping("file")
     public ResponseEntity<?> uploadFile(@RequestParam("filename") String filename, @RequestPart("file") MultipartFile f) throws IOException {
-        cloudStorageService.uploadFile(filename, f.getBytes());
-        return ResponseEntity.ok("Success upload");
+        if(cloudStorageService.uploadFile(filename, f.getBytes())){ return ResponseEntity.ok("Success upload");
+        } else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error input data");
     }
 
     @GetMapping("file")

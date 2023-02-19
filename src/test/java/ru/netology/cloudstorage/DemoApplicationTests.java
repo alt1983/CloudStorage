@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import ru.netology.cloudstorage.service.JwtRequest;
+
+import java.util.Map;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -25,6 +28,17 @@ class DemoApplicationTests {
 
     @Test
     void contextLoads() {
+
+    }
+
+    @Test
+    void getTransferResponseTest() {
+
+        JwtRequest authRequest = new JwtRequest();
+        authRequest.setLogin("user1");
+        authRequest.setPassword("user1");
+        ResponseEntity<?> response = restTemplate.postForEntity("http://localhost:" + myApp.getMappedPort(8080) + "/login", authRequest, Map.class);
+        Assertions.assertNotNull(response);
 
     }
 

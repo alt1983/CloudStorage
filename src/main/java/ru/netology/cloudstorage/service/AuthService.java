@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    private final JwtProvider jwtProvider;
-    private final JwtFilter jwtFilter;
+    private JwtProvider jwtProvider;
+    private JwtFilter jwtFilter;
     private CloudStorageRepository repository;
     private String activeToken;
 
@@ -21,6 +21,8 @@ public class AuthService {
         this.jwtFilter = jwtFilter;
         this.repository = repository;
     }
+
+//    public AuthService() {}
 
     public void logout() {
         repository.deactivateToken(this.activeToken);

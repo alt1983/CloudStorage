@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-//@RequiredArgsConstructor
 public class CloudStorageRepository {
 
     private final FilesRepository filesRepository;
@@ -39,8 +38,9 @@ public class CloudStorageRepository {
         filesRepository.updateData(name, data);
     }
 
-    public void insertFile(String name, byte[] data) {
+    public boolean insertFile(String name, byte[] data) {
         filesRepository.insertFile(name, data);
+        return true;
     }
 
     public List<Tokens> findAllTokens() {
